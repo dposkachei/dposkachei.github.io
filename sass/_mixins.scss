@@ -1,0 +1,149 @@
+/*
+	@include border-radius-part(top-radius,10px);
+*/
+@mixin border-radius-part($part, $radius) { 
+	@if $part == 'all' { 
+		-webkit-border-radius: $radius; 
+		-moz-border-radius: $radius; 
+		-ms-border-radius: $radius; 
+		border-radius: $radius; 
+	}
+	@else {
+		-webkit-border-#{$part}: $radius; 
+		-moz-border-#{$part}: $radius; 
+		-ms-border-#{$part}: $radius; 
+		border-#{$part}: $radius; 
+	}
+	
+}
+/*
+	@include border-radius(10px);
+*/
+@mixin border-radius($radius) { 
+	-webkit-border-radius: $radius; 
+	-moz-border-radius: $radius; 
+	-ms-border-radius: $radius; 
+	border-radius: $radius; 
+}
+/*
+	@include duration(2s);
+*/
+@mixin duration($a) { 
+	-webkit-transition-duration: $a; 
+	-o-transition-duration: $a; 
+	-moz-transition-duration: $a; 
+	transition-duration: $a; 
+}
+/*
+	@include rotate(90);
+*/
+@mixin rotate($d) { 
+	transform:rotate($d+deg); 
+ 	-ms-transform:rotate($d+deg); 
+ 	-webkit-transform:rotate($d+deg); 
+ 	-o-transform: rotate($d+deg); 
+}
+/*
+  @include scale(90);
+*/
+@mixin scale($d) { 
+  transform:scale($d*0.01); 
+  -ms-transform:scale($d*0.01); 
+  -webkit-transform:scale($d*0.01); 
+  -o-transform: scale($d*0.01); 
+}
+/*
+  @include box-shadow(0 2px 5px #ccc);
+*/
+@mixin box-shadow($args...){ 
+  -moz-box-shadow: $args; 
+  -webkit-box-shadow: $args; 
+  box-shadow: $args; 
+}
+/*
+	@include transition(top 1s ease-out 0.5s);
+*/
+@mixin transition($args...) {
+  -webkit-transition: $args;
+  -moz-transition: $args;
+  -ms-transition: $args;
+  -o-transition: $args;
+  transition: $args;
+}
+/*
+	@include opacity(80);
+*/
+@mixin opacity($p) {
+ 	opacity: $p*0.01;
+ 	-webkit-opacity: $p*0.01;
+ 	-khtml-opacity: $p*0.01;
+ 	-moz-opacity: $p*0.01;
+ 	filter:alpha(opacity=$p);
+ 	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=$p)";
+}
+/*
+	@include size(100px);
+	@include size(200px, 100px);
+*/
+@mixin size($width, $height: $width) {
+      width: $width;
+      height: $height;
+}
+/*
+	@include bg(#aaaaaa, #efefef);
+*/
+@mixin bg($top, $btm) {
+	background: $top;
+	background: -moz-linear-gradient(top, $top 0%, $btm 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,$top), color-stop(100%,$btm));
+	background: -webkit-linear-gradient(top, $top 0%,$btm 100%);
+	background: -o-linear-gradient(top, $top 0%,$btm 100%);
+	background: -ms-linear-gradient(top, $top 0%,$btm 100%);
+	background: linear-gradient(to bottom, $top 0%,$btm 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='$top', endColorstr='$btm',GradientType=0 );
+}
+/*
+	@include border(all, #ccc, 1px);
+	@include border(top, #ccc, 1px);
+*/
+@mixin border($place, $color, $width) {
+	@if $place == 'all' {
+		border: $width solid $color;
+	} 
+	@else {
+		border-#{$place}: $width solid $color;
+	}
+}
+/*
+  @include keyframes(spin) {
+    0% { margin-top: -200px; }
+    100% { margin-top: 0px; }
+  }
+*/
+@mixin keyframes($animation-name) {
+    @-webkit-keyframes #{$animation-name} {
+        @content;
+    }
+    @-moz-keyframes #{$animation-name} {
+        @content;
+    }  
+    @-ms-keyframes #{$animation-name} {
+        @content;
+    }
+    @-o-keyframes #{$animation-name} {
+        @content;
+    }  
+    @keyframes #{$animation-name} {
+        @content;
+    }
+}
+/*
+  @include animation(spin 1s infinite linear);
+*/
+@mixin animation($str) {
+  -webkit-animation: #{$str};
+  -moz-animation: #{$str};
+  -ms-animation: #{$str};
+  -o-animation: #{$str};
+  animation: #{$str};      
+}

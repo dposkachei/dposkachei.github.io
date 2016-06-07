@@ -1,0 +1,56 @@
+<!-- image-parallax container -->
+
+<div class="container" id="pdf">
+    <div class="section">
+        <div class="row center">
+            <h5 class="col s12 light">PDF</h5>
+        </div>
+    </div>
+</div>
+<!-- table container -->
+<div class="container">
+    <div class="section">
+        <div class="row">
+            <div class="col s12 m10 offset-m1 " >
+                <table class="bordered last-right">
+                    <tbody>
+                        <tr ng-repeat="file in pdf | filter:isActive" class="repeated-item">
+                            <td>{{file.name}}</td>
+                            <td>
+                                <a class="waves-effect waves-light btn-flat btn-icon s-hide" href="pdf/{{file.url}}" target="_blank"><i class="material-icons">&#xE417;</i></a>
+                                <a class="waves-effect waves-teal btn-flat btn-icon s-show" href="pdf/{{file.url}}"><i class="material-icons">&#xE2C4;</i></a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- image-parallax container -->
+<div class="container" id="gtp">
+    <div class="section">
+        <div class="row center">
+            <h5 class="col s12 light">GTP</h5>
+        </div>
+    </div>
+</div>
+<!-- icon-news-button container -->
+<div class="container">
+    <div class="section">
+        <!--   Icon Section   -->
+        <div class="row center">
+            <div class="col s12 m6 l4" ng-repeat="tab in tabs" class="repeated-item">
+                <div class="icon-block">
+                    <h2 class="center brown-text"><i class="material-icons">&#xE321;</i></h2>
+                    <h5 class="center">{{tab.name}}</h5>
+                    <p class="light"></p>
+                    <div class="row center">
+                        <a class="waves-effect waves-light btn" href="gtp/{{tab.url}}"><i class="material-icons left">&#xE2C4;</i>Скачать файл</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,12 @@
+{
+    "output": {
+        "dir": "css",
+        "structure": "flat"
+    },
+    "compile": {
+        "line-comments": true,
+        "line-numbers":  true,
+        "style":         "nested", // Comments allowed in `.libsass.json`, but not `*.sublime-settings`
+        "load-path":     "sass/styles" // You DO NOT need this line
+    }
+}

@@ -1,0 +1,4 @@
+RewriteRule ^(css\/|img\/|bower_components\/|js\/|template\/) - [L]
+RewriteCond %{REQUEST_FILENAME} -f
+RewriteRule .+ - [L]
+RewriteRule .* index.html [QSA]

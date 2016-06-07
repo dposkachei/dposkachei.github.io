@@ -1,0 +1,103 @@
+/*  
+	FONT SIZE  
+*/
+$h1-size: 50px;
+$h2-size: 30px;
+$h3-size: 20px;
+$h4-size: 18px;
+$h5-size: 16px;
+
+$text-size: 14px;
+
+$line-height-size: 25px;
+/*  
+	BUTTON
+*/
+%button {
+	border: none;
+	@include transition(top 250ms ease-out 250ms);
+	@include border-radius(2px);
+	@include box-shadow(0,2px,5px,rgba(0,0,0,0.16));
+	@include size(190px,36px);
+  	display: inline-block;
+  	color: #424242;
+  	background-color: #FFF;
+  	text-align: center;
+  	line-height: 36px;
+  	outline: 0;
+  	padding: 0 2rem; 
+  	vertical-align: middle;
+  	-webkit-tap-highlight-color: transparent;
+  	letter-spacing: .5px;
+  	outline: none;
+  	cursor: pointer;
+  	&:hover {
+  		background-color: #FFF;
+  		@include box-shadow(0,3px,5px,rgba(0,0,0,0.18));
+  	}
+  	&:active {
+  		background-color: #fff;
+  		@include box-shadow(0,1px,1px,rgba(0,0,0,0.18));
+  	}
+  	&.hide {
+  		@include down-fader(hide);
+  	}
+  	&.show {
+  		@include down-fader(show);
+  	}
+  	&:disabled {
+		background-color: #eee;
+  		&:hover {
+  			@include box-shadow(0,2px,5px,rgba(0,0,0,0.16));
+  		}
+  	}
+}
+/*  
+	H1-5 EXTENDS
+*/
+
+%h1-size {
+	font-size: $h1-size;
+}
+%h2-size {
+	font-size: $h2-size;
+}
+%h3-size {
+	font-size: $h3-size;
+}
+%h4-size {
+	font-size: $h4-size;
+}
+%h5-size {
+	font-size: $h5-size;
+}
+%line-height-size {
+	line-height: $line-height-size;
+}
+
+%label-item-shop {
+	display: block;
+	position: absolute;
+	margin-top: 20px;
+	@include size(50px,20px);
+	text-align: center;
+}
+
+%loader {
+  position: relative;
+  @include opacity(100);
+  &:after {
+    content: '';
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    margin: auto;
+    top: 0; left: 0; bottom: 0; right: 0;
+    border-radius: 100%;
+    border-top: 1px solid #2980B9;
+    border-bottom: 1px solid #2980B9;
+    border-left: 1px solid #eee;
+    border-right: 1px solid #eee;
+    @include animation(spin .7s infinite linear);
+  }
+}

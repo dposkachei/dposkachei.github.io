@@ -1,0 +1,77 @@
+@import '_materialize';
+@import '_mixins';
+@import '_keyframes';
+/* Styling for the ngProgress itself */
+#ngProgress {
+    margin: 0;
+    padding: 0;
+    z-index: 99998;
+    background-color: green;
+    color: green;
+    box-shadow: 0 0 10px 0; /* Inherits the font color */
+    height: 2px;
+    opacity: 0;
+
+    /* Add CSS3 styles for transition smoothing */
+    -webkit-transition: all 0.5s ease-in-out;
+    -moz-transition: all 0.5s ease-in-out;
+    -o-transition: all 0.5s ease-in-out;
+    transition: all 0.5s ease-in-out;
+}
+
+/* Styling for the ngProgress-container */
+#ngProgress-container {
+    position: fixed;
+    margin: 0;
+    padding: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 99999;
+}
+
+
+nav ul a,
+nav .brand-logo, nav a {
+  color: #444;
+  cursor: pointer;
+}
+
+.open-menu {
+	transform: translateX(0);
+}
+.hide-menu {
+	transform: translateX(-105px);
+}
+
+main {
+	min-height: 1000px;
+}
+
+.icon-block {
+  padding: 0 15px;
+}
+.icon-block .material-icons {
+  font-size: inherit;
+}
+
+main.ng-enter {
+	transition: 0.5s linear all;
+	opacity: 0;
+}
+main.ng-enter.ng-enter-active {
+	opacity: 1;
+}
+.repeated-item td.ng-enter {
+	transition: 0.5s linear all;
+	opacity: 0;
+	transform: translateY(300px);
+}
+.repeated-item td.ng-enter.ng-enter-active {
+	opacity: 1;
+	transform: translateY(0);
+}
+
+#nav-mobile {
+	transition: .1s linear all;
+}
