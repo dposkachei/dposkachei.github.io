@@ -1,4 +1,11 @@
 <!-- image-parallax container -->
+<div class="container">
+    <div class="section">
+        <div class="row center">
+            <h5 class="col s12 light" ng-repeat="person in persons | filter:onePerson" class="repeated-item">{{person.name}}</h5>
+        </div>
+    </div>
+</div>
 
 <div class="container" id="pdf">
     <div class="section">

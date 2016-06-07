@@ -35,8 +35,14 @@ groupApp.controller('PersonListCtrl',['$scope','$http','$routeParams', function(
     $http.get('persons/pdf.json').success(function(data, status, headers, config) {
         $scope.pdf = data;
     });
+    $http.get('persons/persons.json').success(function(data, status, headers, config) {
+        $scope.persons = data;
+    });
     $scope.isActive = function(file) {
       return file.person_id === $routeParams.personId;
+    };
+    $scope.onePerson = function(person) {
+      return person.id === $routeParams.personId;
     };
 
     $scope.myAnimate = function() {
