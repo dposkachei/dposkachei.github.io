@@ -5,11 +5,12 @@
 
 
 var bookApp = angular.module('bookApp', ['ngRoute']);
-var groupApp = angular.module('groupApp', ['ngRoute', 'ngResource', 'ngAnimate']);
+var groupApp = angular.module('groupApp', ['ngRoute', 'ngResource', 'ngAnimate', 'ngProgress']);
 
 
 
-groupApp.controller('GroupListCtrl',['$scope','$http', function($scope, $http) {
+groupApp.controller('GroupListCtrl',['$scope','$http','ngProgressFactory',
+  function($scope, $http,ngProgressFactory) {
     $scope.$on('LOAD',function($scope) { $scope.loading=true });
     $scope.$on('UNLOAD',function($scope) { $scope.loading=false });
 
@@ -25,9 +26,23 @@ groupApp.controller('GroupListCtrl',['$scope','$http', function($scope, $http) {
 
 }]);
 
-groupApp.controller('PersonListCtrl',['$scope','$http','$routeParams', function($scope, $http, $routeParams) {
+groupApp.controller('PersonListCtrl',['$scope','$http','$routeParams','ngProgressFactory', 
+  function($scope, $http, $routeParams,ngProgressFactory) {
+    $scope.progressbar = ngProgressFactory.createInstance();
+    $scope.progressbar.setColor('#000');
+    $scope.progressbar.start(); 
+    
+    
+    
 
-    $scope.viewClass = 'hi';
+    $scope.$on('LOAD',function($scope) { 
+      $scope.progressbar.start(); 
+      console.log('LOAD'); 
+    });
+    $scope.$on('UNLOAD',function($scope) { 
+      $scope.progressbar.complete(); 
+      console.log('UNLOAD'); 
+    });
 
     $http.get('persons/tabs.json').success(function(data, status, headers, config) {
         $scope.tabs = data;
@@ -39,6 +54,7 @@ groupApp.controller('PersonListCtrl',['$scope','$http','$routeParams', function(
         $scope.persons = data;
     });
     $scope.isActive = function(file) {
+      
       return file.person_id === $routeParams.personId;
     };
     $scope.onePerson = function(person) {
@@ -48,13 +64,35 @@ groupApp.controller('PersonListCtrl',['$scope','$http','$routeParams', function(
     $scope.myAnimate = function() {
       if ($scope.viewClass === 'animate-enter') {
         $scope.viewClass = 'animate-enter-active';
+
       }
       else {
-        $scope.viewClass = 'animate-enter'
+        $scope.viewClass = 'animate-enter';
+
       }
     };
+    $scope.progressbar.complete(); 
 
 }]);
+
+/*
+
+
+
+.controller('firstCtrl', function($scope, dataHolder){
+  $scope.value = dataHolder.getValue();
+})
+
+.controller('secondCtrl', function($scope, dataHolder){
+  $scope.pass = function() {
+    dataHolder.updateValue($scope.value);
+    $scope.value = '';
+  }
+})
+*/
+
+
+
 
 
 
