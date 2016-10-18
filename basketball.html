@@ -1,0 +1,531 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Vue & Bulma</title>
+    <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="css/app.second.css">
+    <link rel="shortcut icon" href="images/favicon.png">
+    <script src="js/jquery-3.1.0.min.js"></script>
+    <script src="js/toastr.min.js"></script>
+    <script src="js/flickity.pkgd.min.js"></script>
+
+    <script src="js/angular.second/angular.min.js"></script>
+    <script src="js/angular.second/angular-route.min.js"></script>
+    <script src="js/angular.second/angular-resource.min.js"></script>
+    <script src="js/angular.second/angular-ui-notification.js"></script>
+
+    <script src="js/angular.second/app.js"></script>
+    <script src="js/angular.second/services.js"></script>
+    <script src="js/angular.second/directives.js"></script>
+    <script src="js/angular.second/controllers.js"></script>
+    <script src="js/angular.second/filters.js"></script>
+
+
+
+</head>
+<body ng-app="storeApp">
+<svg class="hidden">
+    <defs>
+        <symbol id="icon-triangle" viewBox="0 0 24 24">
+            <title>triangle</title>
+            <path d="M4.5,19.8C4.5,19.8,4.5,19.8,4.5,19.8V4.2c0-0.3,0.2-0.5,0.4-0.7c0.2-0.1,0.5-0.1,0.8,0l13.5,7.8c0.2,0.1,0.4,0.4,0.4,0.7c0,0.3-0.2,0.5-0.4,0.7L5.7,20.4c-0.1,0.1-0.3,0.1-0.5,0.1C4.8,20.6,4.5,20.2,4.5,19.8z M6,5.6v12.8L17.2,12L6,5.6z"/>
+        </symbol>
+        <symbol id="icon-basketball" viewBox="0 0 24 24">
+            <svg data-name="Layer 1" id="Layer_1" viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                <defs>
+                    <style>
+                        .cls-1,.cls-4{
+                            fill:none;
+                        }
+                        .cls-2{
+                            clip-path:url(#clip-path);
+                        }
+                        .cls-3{
+                            /*fill:#ff6b97;*/
+                        }
+                        .cls-4{
+                            /*stroke:#fff;*/
+                            stroke: #1e1b2c;
+                            stroke-miterlimit:10;
+                            stroke-width:3px;
+                        }
+                    </style>
+                    <clipPath id="clip-path">
+                        <circle class="cls-1" cx="29.5" cy="30.52" r="21.5"/>
+                    </clipPath>
+                </defs>
+                <title>basketball</title>
+                <g class="cls-2">
+                    <rect class="cls-3" height="53" width="53" x="3" y="4.02"/>
+                </g>
+                <path class="cls-4" d="M32,26.26A58.48,58.48,0,0,1,34.32,32,29.08,29.08,0,0,1,52,32.41c0-.56.09-1.13,0.09-1.71a22.29,22.29,0,0,0-7-16.23A29.21,29.21,0,0,1,32,26.26Z"/>
+                <path class="cls-4" d="M15.84,48.21a22.35,22.35,0,0,1-8-22.08"/>
+                <path class="cls-4" d="M52,32.42A21.83,21.83,0,0,1,37.67,51.6v0.06"/>
+                <path class="cls-4" d="M15.84,48.21A22.23,22.23,0,0,0,37.7,51.6,58.77,58.77,0,0,0,34.32,32,29.15,29.15,0,0,0,15.84,48.21Z"/>
+                <path class="cls-4" d="M20.72,10.25a22.28,22.28,0,0,1,24.41,4.23"/>
+                <path class="cls-4" d="M32,26.26a59,59,0,0,0-11.25-16A22.4,22.4,0,0,0,7.86,26.12a29,29,0,0,0,12.21,2.69A29,29,0,0,0,32,26.26Z"/>
+            </svg>
+        </symbol>
+    </defs>
+</svg>
+<section class="notifications">
+    <!-- Notification growl -->
+    <div id="ns-growl" class="ns-box ns-growl ns-effect-scale ns-type-notice ns-show">
+        <div class="ns-box-inner">
+            <p>This is just a simple notice. Everything is in order and this is a <a href="#">simple link</a>.</p>
+        </div>
+        <span class="ns-close"></span>
+    </div>
+</section>
+<section class="dialogs" ng-controller="formCtrl">
+    <div id="register" class="dialog">
+        <div class="dialog__overlay"></div>
+        <div class="dialog__content is-vcentered" style="width: 300px;">
+
+            <h3 class="title">
+                Регистрация
+            </h3>
+            <form>
+                <p class="control has-icon" ng-class="{'is-loading': loadForm}">
+                    <input
+                            class="input"
+                            type="text"
+                            name="name"
+                            placeholder="Name"
+                            ng-class="{'is-danger': error.name}"
+                            ng-model="user.name"
+                            required
+                    >
+                    <i class="fa fa-user" ng-class="{'fa-warning': error.name}" ng-class="{'fa-check': succes.name}"></i>
+                </p>
+                <p class="control has-icon" ng-class="{'is-loading': loadForm}">
+                    <input
+                            class="input"
+                            name="email"
+                            type="email"
+                            placeholder="Email"
+                            ng-class="{'is-danger': error.email}"
+                            ng-model="user.email"
+                            required
+                    >
+                    <i class="fa fa-envelope" ng-class="{'fa-warning': error.email}" ng-class="{'fa-check': succes.email}"></i>
+                </p>
+                <p class="control has-icon" ng-class="{'is-loading': loadForm}">
+                    <input
+                            class="input"
+                            type="password"
+                            name="password"
+                            placeholder="Password"
+                            ng-class="{'is-danger': error.password}"
+                            ng-model="user.password"
+                            required
+                    >
+                    <i class="fa fa-lock" ng-class="{'fa-warning': error.password}" ng-class="{'fa-check': succes.password}"></i>
+                </p>
+                <p class="control has-icon" ng-class="{'is-loading': loadForm}">
+                    <input
+                            class="input"
+                            type="password"
+                            name="confirm_password"
+                            placeholder="Confirm password"
+                            ng-class="{'is-danger': error.confirm_password}"
+                            ng-model="user.confirm_password"
+                            required
+                    >
+                    <i class="fa fa-lock" ng-class="{'fa-warning': error.confirm_password}" ng-class="{'fa-check': succes.confirm_password}"></i>
+                    <span class="help is-danger" ng-class="{'show': error.confirm_password}" style="display: none;" ng-cloak>{{ error.confirm_password[0] }}</span>
+                </p>
+                <p class="control">
+                    <button class="button is-primary" type="submit">Register</button>
+                    <button class="dialog__close button" type="button" data-dialog="#register">Cancel</button>
+                </p>
+            </form>
+            <div style="position: absolute; top: 10px; right: 10px;">
+                <a class="dialog__close icon" data-dialog="#register">
+                    <i class="fa fa-times"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div id="login" class="dialog">
+        <div class="dialog__overlay"></div>
+        <div class="dialog__content is-vcentered" style="width: 300px;">
+
+            <h3 class="title">
+                Вход
+            </h3>
+            <progress class="progress is-primary" value="30" max="100">30%</progress>
+            <form>
+                <p class="control has-icon" ng-class="{'is-loading': loadForm}">
+                    <input
+                            class="input"
+                            name="email"
+                            type="email"
+                            placeholder="Email"
+                            ng-class="{'is-danger': error.email}"
+                            ng-model="user.email"
+                            required
+                    >
+                    <i class="fa fa-envelope" ng-class="{'fa-warning': error.email}" ng-class="{'fa-check': succes.email}"></i>
+                </p>
+                <p class="control has-icon" ng-class="{'is-loading': loadForm}">
+                    <input
+                            class="input"
+                            type="password"
+                            name="password"
+                            placeholder="Password"
+                            ng-class="{'is-danger': error.password}"
+                            ng-model="user.password"
+                            required
+                    >
+                    <i class="fa fa-lock" ng-class="{'fa-warning': error.password}" ng-class="{'fa-check': succes.password}"></i>
+                </p>
+                <p class="control">
+                    <button class="button is-primary" type="submit">
+                        Login
+                    </button>
+                    <button class="dialog__close button" type="button" data-dialog="#login">
+                        Cancel
+                    </button>
+                </p>
+            </form>
+            <div style="position: absolute; top: 10px; right: 10px;">
+                <a class="dialog__close icon" data-dialog="#login">
+                    <i class="fa fa-times"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+<div class="loading-page loading-page-overlay">
+    <div class="loader-inner cube-transition">
+        <div></div>
+        <div></div>
+    </div>
+</div>
+
+
+<!-- NAVIGATION -->
+<nav class="nav has-shadow nav-desta">
+    <div class="container">
+        <div class="nav-left">
+            <a class="nav-item nav-logo" href="#!">
+                BULMA
+                <!-- <img src="../images/bulma.png" alt="Description"> -->
+            </a>
+        </div>
+			<span class="nav-toggle">
+				<span></span>
+				<span></span>
+				<span></span>
+			</span>
+        <div class="nav-right nav-menu">
+            <a class="nav-item is-tab is-active">
+                Главная
+            </a>
+            <a class="nav-item is-tab">
+                Тренажерный зал
+            </a>
+            <ul class="nav-item is-tab dropdown-link ">
+                <li>
+                    <a href="#!">Баскетбол</a>
+                </li>
+                <li class="dropdown-menu">
+                    <a href="#!" class="dropdown-menu__item">Баскетбольный клуб "Богатырь"</a>
+                    <a href="#!" class="dropdown-menu__item">"Белый баскетбол"</a>
+                    <a href="#!" class="dropdown-menu__item">Турниры</a>
+                </li>
+            </ul>
+            <ul class="nav-item is-tab dropdown-link">
+                <li>
+                    <a href="#!">Другие виды спорта</a>
+                </li>
+                <li class="dropdown-menu">
+                    <a href="#!" class="dropdown-menu__item">Crossfit</a>
+                    <a href="#!" class="dropdown-menu__item">Бодибилдинг</a>
+                    <a href="#!" class="dropdown-menu__item">Пауэрлирфтинг</a>
+                </li>
+            </ul>
+            <a class="nav-item is-tab">
+                Магазин
+            </a>
+            <a class="nav-item is-tab">
+                Контакты
+            </a>
+            <span class="nav-item">
+                <a class="button is-primary is-inverted trigger" data-dialog="#login">
+                    <span class="icon is-small">
+                        <i class="fa fa-sign-in"></i>
+                    </span>
+                    <span>Войти</span>
+                </a>
+                <a class="button is-primary is-inverted trigger" data-dialog="#register">
+                    Регистрация
+                </a>
+                <a id="notification-trigger" data-notification="#ns-growl" class="button is-primary">
+                    Notification
+                </a>
+            </span>
+        </div>
+    </div>
+</nav>
+
+
+<section class="section hero is-bold is-medium" style="background: #1e1b2c;color: #f39468;padding: 0;">
+    <!-- Hero content: will be in the middle -->
+    <div class="hero-body">
+        <div class="container has-text-centered">
+            <h1 class="title is-1" style="color: #f39468;">
+                Богатырь & Белый баскетбол
+            </h1>
+            <h2 class="subtitle">
+                Тренажерный зал в г.Красный Сулин
+            </h2>
+        </div>
+    </div>
+
+    <!-- Hero footer: will stick at the bottom -->
+    <div class="hero-foot">
+        <div class="container">
+            <div class="tabs is-centered">
+                <ul class="tabs-menu-carousel">
+                    <li class="is-active" data-section="#pictures">
+                        <a>Новости</a>
+                    </li>
+                    <li data-section="#music">
+                        <a>Мероприятия</a>
+                    </li>
+                    <li data-section="#videos">
+                        <a>Турниры</a>
+                    </li>
+                    <li data-section="#documents">
+                        <a>Магазин</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section" style="background: #1e1b2c;color: #f39468;">
+    <div class="container">
+        <div class="tile is-ancestor">
+            <div class="tile is-vertical is-8">
+                <div class="tile">
+                    <div class="tile is-parent is-vertical">
+                        <article class="tile is-child box">
+                            <p class="title">
+                                <a href="">Последняя новость</a>
+                            </p>
+                            <p class="subtitle" style="margin: 0;font-size: 1rem;">Категория: <a href="">Баскетбол</a></p>
+                            <p class="subtitle"  style="margin: 0;font-size: 1rem;">Дата: <a href="">19.10.2010</a></p>
+                            <div class="content" style="margin: 10px 0;">
+                                <p>
+                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod.
+                                </p>
+                            </div>
+                        </article>
+                        <article class="tile is-child box">
+                            <p class="title">
+                                <a href="">Пред последняя новость</a>
+                            </p>
+                            <p class="subtitle" style="margin: 0;font-size: 1rem;">Категория: <a href="">Тренажерный зал</a></p>
+                            <div class="content" style="margin: 10px 0;">
+                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod.
+                            </div>
+                        </article>
+                    </div>
+                    <div class="tile is-parent">
+                        <article class="tile is-child box">
+                            <p class="title">Хандадашев Антон</p>
+                            <p class="subtitle">Организатор</p>
+                            <figure class="image is-1by1">
+                                <img src="images/anton.jpg" style="height: auto;margin: auto;">
+                            </figure>
+                            <div class="control is-grouped is-grouped-right" style="padding: 10px 0;">
+                                <p class="control">
+                                    <a class="icon is-small" href="#!">
+                                        <i class="fa fa-vk"></i>
+                                    </a>
+                                </p>
+                                <p class="control">
+                                    <a class="icon is-small" href="#!">
+                                        <i class="fa fa-instagram"></i>
+                                    </a>
+                                </p>
+                                <p class="control">
+                                    <a class="icon is-small" href="#!">
+                                        <i class="fa fa-facebook"></i>
+                                    </a>
+                                </p>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+                <div class="tile is-parent">
+                    <article class="tile is-child box">
+                        <p class="title">Большая новость</p>
+                        <p class="subtitle">Категория: Блог</p>
+                        <div class="content">
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ornare magna eros, eu pellentesque tortor vestibulum ut. Maecenas non massa sem. Etiam finibus odio quis feugiat facilisis.</p>
+                        </div>
+                    </article>
+                </div>
+            </div>
+            <div class="tile is-parent">
+                <article class="tile is-child box">
+                    <div class="content">
+                        <p class="title">Правая новость</p>
+                        <p class="subtitle">With even more content</p>
+                        <div class="content">
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam semper diam at erat pulvinar, at pulvinar felis blandit. Vestibulum volutpat tellus diam, consequat gravida libero rhoncus ut. Morbi maximus, leo sit amet vehicula eleifend, nunc dui porta orci, quis semper odio felis ut quam.</p>
+                            <p>Suspendisse varius ligula in molestie lacinia. Maecenas varius eget ligula a sagittis. Pellentesque interdum, nisl nec interdum maximus, augue diam porttitor lorem, et sollicitudin felis neque sit amet erat. Maecenas imperdiet felis nisi, fringilla luctus felis hendrerit sit amet. Aenean vitae gravida diam, finibus dignissim turpis. Sed eget varius ligula, at volutpat tortor.</p>
+                            <p>Integer sollicitudin, tortor a mattis commodo, velit urna rhoncus erat, vitae congue lectus dolor consequat libero. Donec leo ligula, maximus et pellentesque sed, gravida a metus. Cras ullamcorper a nunc ac porta. Aliquam ut aliquet lacus, quis faucibus libero. Quisque non semper leo.</p>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+<section class="section" style="
+		background-image: url(images/basketball/LLmPBhU89c8.jpg);
+		background-size: 100%;
+		background-position: 0 50%;
+		">
+    <div class="container has-text-centered">
+        <div class="columns is-vcentered">
+            <div class="column is-5">
+                <figure class="image is-4by3">
+                    <img src="images/basketball/LLmPBhU89c8.jpg" alt="Description" style="height: auto;margin: auto;">
+                </figure>
+            </div>
+            <div class="column is-6 is-offset-1" style="padding: 4rem;position: relative;">
+                <div style="z-index: 50;position: inherit;">
+                    <!-- <div class="column-overlay-blur"></div> -->
+                    <h1 class="title is-1">
+                        "Белый баскетбол" сезон 2016г. закрыт
+                    </h1>
+                    <p class="has-text-centered">
+                        <a href="news.html" class="button is-large is-primary">
+                            Читать полностью
+                        </a>
+                    </p>
+                </div>
+                <div class="column-overlay-blur"></div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+<section class="section section--nav" id="Desta">
+    <div class="container">
+        <h3 class="title">Уличный баскетбол. Правила.</h3>
+        <hr>
+        <div class="columns">
+            <div class="column is-6">
+                <div class="mockup-slider is-pulled-right id-1">
+                    <img src="images/sfwmAkieTSyeToJZqfKV_IMG_9840 BW.jpg" alt="img13" />
+                    <h3 class="mockup-slider__title">"Белый баскетбол"</h3>
+                    <h5 class="mockup-slider__subtitle">Правило 1</h5>
+                </div>
+                <div class="mockup-slider mockup-slider--current is-pulled-right id-2">
+                    <img src="images/photo-1469155472021-fb3489e556fb.jpg" alt="img13" />
+                    <h3 class="mockup-slider__title">"Белый баскетбол"</h3>
+                    <h5 class="mockup-slider__subtitle">Правило 2</h5>
+                </div>
+                <div class="mockup-slider is-pulled-right id-3">
+                    <img src="images/sfwmAkieTSyeToJZqfKV_IMG_9840 BW.jpg" alt="img13" />
+                    <h3 class="mockup-slider__title">"Белый баскетбол"</h3>
+                    <h5 class="mockup-slider__subtitle">Правило 3</h5>
+                </div>
+            </div>
+            <div class="column">
+                <nav class="nav--desta">
+                    <button class="nav__item" aria-label="Item 1" article-id="#id-1" article-class=".id-1">
+                        <svg class="nav__icon"><use xlink:href="#icon-triangle"></use></svg>
+                        <span class="nav__item-title">Правило 1</span>
+                    </button>
+                    <button class="nav__item nav__item--current" aria-label="Item 2" article-id="#id-2" article-class=".id-2">
+                        <svg class="nav__icon"><use xlink:href="#icon-triangle"></use></svg>
+                        <span class="nav__item-title">Правило 2</span>
+                    </button>
+                    <button class="nav__item" aria-label="Item 3" article-id="#id-3" article-class=".id-3">
+                        <svg class="nav__icon"><use xlink:href="#icon-basketball"></use></svg>
+                        <span class="nav__item-title">Правило 3</span>
+                    </button>
+                </nav>
+                <article class="mockup-article" id="id-1">
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                    consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+                    cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+                    proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                </article>
+                <article class="mockup-article article--current" id="id-2">
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
+                    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                </article>
+                <article class="mockup-article" id="id-3">
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+                </article>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- IMAGE TEXT SECTION -->
+<!-- MAIN -->
+
+<section class="section" style="background: #1e1b2c;color: #f39468;">
+    <div class="container">
+        <div class="columns gallery-colums">
+            <div class="column carousel carousel-main">
+                <img src="images/basketball/1.jpg" alt="orange tree" />
+                <img src="images/basketball/2.jpg" alt="submerged" />
+                <img src="images/basketball/3.jpg" alt="look-out" />
+                <img src="images/basketball/4.jpg" alt="One World Trade" />
+                <img src="images/basketball/5.jpg" alt="orange tree" />
+                <img src="images/basketball/6.jpg" alt="submerged" />
+            </div>
+        </div>
+        <div class="columns gallery-colums">
+            <div class="column carousel carousel-nav"
+                 data-flickity='{ "asNavFor": ".carousel-main", "contain": true, "pageDots": false }'>
+                <img src="images/basketball/1.jpg" alt="orange tree" />
+                <img src="images/basketball/2.jpg" alt="submerged" />
+                <img src="images/basketball/3.jpg" alt="look-out" />
+                <img src="images/basketball/4.jpg" alt="One World Trade" />
+                <img src="images/basketball/5.jpg" alt="orange tree" />
+                <img src="images/basketball/6.jpg" alt="submerged" />
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer class="footer">
+    <div class="container">
+        <div class="content has-text-centered">
+            <p>
+                <strong>Bulma</strong> by <a href="http://jgthms.com">Jeremy Thomas</a>. The source code is licensed
+                <a href="http://opensource.org/licenses/mit-license.php">MIT</a>. The website content
+                is licensed <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC ANS 4.0</a>.
+            </p>
+            <p>
+                <a class="icon" href="https://github.com/jgthms/bulma">
+                    <i class="fa fa-github"></i>
+                </a>
+            </p>
+        </div>
+    </div>
+</footer>
+<script src="js/init.js"></script>
+</body>
+</html>
